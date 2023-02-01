@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org" xmlns="http://www.w3.org/1999/html">
+<head lang="en">
+    <meta charset="UTF-8">
+    <title th:text="User + ${user.getId()}"></title>
+</head>
+<body>
+<div th:object="${user}">
+    <p th:text="'Name: ' + ${user.getName()}"></p>
+    <p th:text="'Age: ' + ${user.getAge()}"></p>
+</div>
+<form th:action="@{/user/edit/{id}(id=${user.getId()})}">
+    <button type="submit">Edit</button>
+</form>
+</br>
+<form th:action="@{/user/show/{id}/delete(id=${user.getId()})}" th:method="post">
+    <button type="submit">DELETE!</button>
+</form>
+
+</br>
+<a th:href="@{/user}">Watch all user</a>
+</body>
+</html>
