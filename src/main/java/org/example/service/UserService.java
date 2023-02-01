@@ -1,12 +1,15 @@
 package org.example.service;
 
 import org.example.entity.UserEntity;
+import org.example.exception.PageErrorException;
+import org.example.exception.UserNotFoundException;
 import org.example.repository.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class UserService {
@@ -25,11 +28,19 @@ public class UserService {
         return list;
     }
 
-    public UserEntity getUser(Long id) {
-        return userRepo.findById(id).get();
+    public UserEntity getUser(Long id) throws UserNotFoundException, PageErrorException {
+        UserEntity user = null;
+        try {
+            user = userRepo.findById(id).get();
+        }catch (NoSuchElementException e){
+            throw new UserNotFoundException("");
+        }catch (Exception e){
+            throw new PageErrorException();
+        }
+        return user;
     }
 
-    public void delete(Long id) {
+    public void delete(Long id) throws UserNotFoundException, PageErrorException {
         userRepo.delete(getUser(id));
     }
 
